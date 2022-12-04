@@ -35,13 +35,14 @@ public class ProductServiceController {
         almond.setName("Almond");
         productRepo.put(almond.getId(), almond);
     }
-    
+    //METHOD POST
     @RequestMapping(value = "/products/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> delete(@PathVariable("id") String id){
         productRepo.remove(id);
         return new ResponseEntity<>("Product is deleted successfully", HttpStatus.OK);   
     }
     
+    //METHOD PUT
     @RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateProduct(@PathVariable("id") String id, @RequestBody Product product){
         
@@ -58,12 +59,22 @@ public class ProductServiceController {
         }        
     }
     
+    //METHOD POST
     @RequestMapping(value = "/products", method = RequestMethod.POST)
     public ResponseEntity<Object> createProduct(@RequestBody Product product){
-        productRepo.put(product.getId(), product);
-        return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
+        
+        String pesan = "Sorry, Please input the different Id, because the Id is Already exists";
+        if (productRepo.containsKey(product.getId()))
+        {
+            return new ResponseEntity<>(pesan, HttpStatus.NOT_FOUND);
+        }
+        else{
+            productRepo.put(product.getId(), product);
+            return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED); 
+        }   
     }
     
+    //METHOD GET
     @RequestMapping(value = "/products")
     public ResponseEntity<Object> getProduct(){
         return new ResponseEntity<>(productRepo.values(), HttpStatus.OK);
