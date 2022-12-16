@@ -49,7 +49,7 @@ public class Product {
     }
 
     public int getTotal() {
-        return Total = price - (price*Disc/100);
+        return Total;
     }
 
     public void setTotal(int Total) {

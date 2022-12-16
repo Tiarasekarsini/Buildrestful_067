@@ -29,9 +29,9 @@ public class ProductServiceController {
         Product honey = new Product();
         honey.setId("1");
         honey.setName("Honey");
-        honey.setPrice(50000);
-        honey.setDisc(15);
-        honey.getTotal();
+        honey.setPrice(70000);
+        honey.setDisc(20);
+        honey.setTotal(honey.getPrice()- (honey.getPrice()*honey.getDisc()/100));
         productRepo.put(honey.getId(), honey);
         
         Product almond = new Product();
@@ -39,7 +39,7 @@ public class ProductServiceController {
         almond.setName("Almond");
         almond.setPrice(50000);
         almond.setDisc(15);
-        almond.getTotal();
+        almond.setTotal(almond.getPrice()- (almond.getPrice()*almond.getDisc()/100));
         productRepo.put(almond.getId(), almond);
     }
     //METHOD DELETE
@@ -69,6 +69,7 @@ public class ProductServiceController {
         else{
             productRepo.remove(id);
             product.setId(id);
+            product.setTotal(product.getPrice() - product.getPrice() * product.getDisc()/100);
             productRepo.put(id, product);
             return new ResponseEntity<>("Product is updated successfully", HttpStatus.OK);
         }        
@@ -92,6 +93,7 @@ public class ProductServiceController {
         }
         //Kondisi jika user menginput data dengan Id yang belum ada
         else{
+            product.setTotal(product.getPrice() - product.getPrice() * product.getDisc()/100);
             productRepo.put(product.getId(), product);
             //Menampilkan pesan jika user input data dengan Id yang belum ada
             return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED); 
